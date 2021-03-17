@@ -82,7 +82,7 @@ class Purchaserequester(models.Model):
 
     approver_id = fields.Many2one('res.users', string='Approver',  domain=_getUserGroupId, readonly=False, states={
                                   'acc': [('readonly', True)]}, track_visibility='always')
-    description = fields.Text(string="Description", required=True, states={
+    description = fields.Text(string="Descripción", states={
                               'acc': [('readonly', True)]}, track_visibility='always')
     name_seq = fields.Char(string="Purchase Reference ", required=True, copy=False, readonly=True,  index=True,
                            default=lambda self: _('New'))

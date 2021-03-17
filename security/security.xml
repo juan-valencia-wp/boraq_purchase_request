@@ -25,19 +25,19 @@
     <record id="purchase.menu_purchase_products" model="ir.ui.menu">
         <field name="groups_id" eval="[(4, ref('purchase.group_purchase_user'))]"/>
     </record>
-    <record model="ir.rule" id="purchase_requester_rule">
+    <record id="purchase_requester_rule" model="ir.rule">
         <field name="name">Purchase requester rule</field>
         <field name="model_id" ref="model_purchase_requester"/>
         <field name="groups" eval="[(4, ref('boraq_purchase_request.purchase_request_group'))]"/>
         <field name="domain_force">[('create_uid','=',user.id)]</field>
     </record>
-    <record model="ir.rule" id="purchase_request_admin_rule">
+    <record id="purchase_request_admin_rule" model="ir.rule">
         <field name="name">Purchase requester rule for admin</field>
         <field name="model_id" ref="model_purchase_requester"/>
         <field name="groups" eval="[(4, ref('purchase.group_purchase_manager'))]"/>
         <field name="domain_force">[('approver_id','=',user.id)]</field>
     </record>
-    <record model="ir.rule" id="purchase_request_super_admin_rule">
+    <record id="purchase_request_super_admin_rule" model="ir.rule">
         <field name="name">Purchase requester rule for super admin</field>
         <field name="model_id" ref="model_purchase_requester"/>
         <field name="groups" eval="[(4, ref('base.user_admin'))]"/>

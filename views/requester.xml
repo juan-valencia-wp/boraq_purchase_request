@@ -21,7 +21,7 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="action_purchase" string="To Approve" type="object" states="draft" class="oe_highlight" /> 
+                        <button name="action_purchase" string="To Approve" type="object" states="draft" class="oe_highlight" />
                         <button name="button_approve" string="Convert To PRQ" attrs="{'invisible':['|',('purchase_order_id','!=',[]),('state','in',['draft','drft','con','rej','toapprove','app','reject',])]}" type="object" groups="purchase.group_purchase_manager"  class="oe_highlight" />
                         <button name="button_cancel" string="Cancel" states="acc" type="object"  groups = "purchase.group_purchase_manager"  class="oe_highlight" />
                         <button name="button_convert" string="Convert To Draft" attrs="{'invisible':[('state', 'not in', ('rej'))]}" type="object"  groups = "purchase.group_purchase_manager"  class="oe_highlight" />
@@ -39,13 +39,23 @@
                         <group>
                             <field name="date_order" class="oe_inline" />
                             <field name="res_id" class="oe_inline" invisible="1"/>
-                            <field name="approver_id" class="oe_inline" options="{'no_create_edit': True}"/>
+                            <field name="approver_id" class="oe_inline" options="{'no_create_edit': True}" attrs="{'required': True}"/>
+                            <field name="description"/>
                         </group>
                         <notebook colspan="2">
-                         <page string="Description">
-                            <group>
-                                <field name="description"/>
-                            </group>
+                         <page string="Partidas">
+                            <field name="prodoserv_order_line"
+                              widget="section_and_note_one2many"
+                              mode="tree,kanban">
+                              <tree string="Partidas" editable="bottom">
+                                <control>
+                                    <create name="add_request_control" string="Agregar partida"/>
+                                </control>
+                                <field name="prodoserv" attrs="{'required': True}"/>
+                                <field name="cantidad_pos" attrs="{'required': True}"/>
+                                <field name="product_uom" attrs="{'required': True}"/>
+                                </tree>
+                            </field>
 
                             <group>
                                 <field name="user_id" class="oe_inline" invisible="1"/>
@@ -61,21 +71,21 @@
                     </div>
 
                 </form>
-                
+
             </field>
-        </record>   
+        </record>
 
         <record id="inherit_purchase_request" model="ir.ui.view">
 		   <field name="name">purchase.request.form.view</field>
 		   <field name="model">purchase.order</field>
 		   <field name="inherit_id" ref="purchase.purchase_order_form"/>
-		   <field name="priority" eval="50" />  
+		   <field name="priority" eval="50" />
 		   <field name="arch" type="xml">
 			   <xpath expr="//field[@name='date_approve']" position="after">
 				    <field name="purchase_inhrt_id" options="{'no_create_edit': True}" readonly="1"  />
                     <field name="purchase_requester_id" options="{'no_create_edit': True}" readonly="1"  />
 			   </xpath>
-                 
+
 		   </field>
 	    </record>
         <record  id="purchase_kanban_view" model="ir.ui.view">
@@ -110,8 +120,8 @@
                 </kanban>
             </field>
         </record>
-         
-         
+
+
 <!-- new name adding pr0001 v-->
         <record id="seq_purchase_requester" model="ir.sequence">
             <field name="name">Purchase Request</field>
@@ -120,10 +130,10 @@
             <field name="padding">5</field>
             <field name="implementation">standard</field>
             <field name="company_id" eval="False"/>
-            
+
         </record>
-        
-       
+
+
      <!-- button fields -->
        <record id="purchase_form_action_inherit" model="ir.actions.act_window">
             <field name="name">Purchase Request</field>
@@ -134,10 +144,10 @@
               <p class="o_view_nocontent_smiling_face">
                 Create a Purchase Request
               </p>
-             
+
             </field>
         </record>
     <menuitem action="purchase_form_action_inherit" id="menu_purchase_form_action" parent="purchase.menu_procurement_management" groups="boraq_purchase_request.purchase_request_group"/>
 
-        
+
 </odoo>
